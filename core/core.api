@@ -1,0 +1,23 @@
+syntax = "v1"
+import (
+	"doc/frontend/chat.api"
+	"doc/common.api"
+)
+
+@server(
+	middleware: AccessLog // 路由中间件声明
+	group: frontend
+)
+
+service core-api {
+	
+	@handler ChatHandler
+	get /chat (ChatRequest) returns (ChatResponse)
+	
+	@handler CustomerChatHandler
+	post /chat/customer (CustomerChatRequest) returns (Response)
+	
+	@handler WechatChatHandler
+	post /chat/wechat (WechatChatRequest) returns (Response)
+	
+}

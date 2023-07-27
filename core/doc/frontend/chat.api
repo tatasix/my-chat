@@ -1,0 +1,43 @@
+syntax = "v1"
+
+info(
+    title: "chat 相关 api"
+    desc: "前端相关"
+    author: "tata"
+    email: ""
+    version: "v1"
+)
+
+type (
+    ChatRequest struct {
+        MessageID      string `json:"message_id,optional"`
+        Message        string `json:"message,optional"`
+        User string `json:"user,optional"`
+        OpenKfID   string `json:"open_kf_id,optional"`
+        Heartbeat   bool `json:"heartbeat,optional"`
+    }
+
+    ChatResponse {
+        Message string `json:"message"`
+        MessageID string `json:"message_id"`
+        Emoji int64 `json:"emoji"`
+        IsEnd bool `json:"is_end"`
+        ErrorMessage string `json:"error_message"`
+    }
+
+
+    WechatChatRequest struct {
+        Channel string `json:"channel,optional" validate:"required,oneof=wecom openai" label:"渠道"`
+        MSG string `json:"msg,optional" validate:"required,max=500" label:"消息"`
+        UserID string `json:"user_id,optional" validate:"required,max=500" label:"用户标识"`
+        AgentID int64 `json:"agent_id,optional" validate:"required" label:"应用标识"`
+    }
+
+    CustomerChatRequest struct {
+        MsgID      string `json:"msg_id"`
+        Msg        string `json:"msg"`
+        CustomerID string `json:"customer_id"`
+        OpenKfID   string `json:"open_kf_id"`
+    }
+
+)
