@@ -1,4 +1,4 @@
-# chatgpt-wechat
+# my-wechat
 
 此项目分成几个大的功能服务模块
 - **chat服务**
