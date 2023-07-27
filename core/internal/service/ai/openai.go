@@ -405,63 +405,63 @@ func (c *OpenAi) Chat(req []structure.ChatModelMessage) (string, error) {
 		})
 	}
 
-	paramsss := T{
-		Type: "",
-		Properties: struct {
-			MovieTitle struct {
-				Type        string
-				Description string
-			}
-			ReleaseDate struct {
-				Type        string
-				Description string
-			}
-			Director struct {
-				Type        string
-				Description string
-			}
-		}{
-			MovieTitle: struct {
-				Type        string
-				Description string
-			}{
-				Type:        "",
-				Description: "",
-			},
-			ReleaseDate: struct {
-				Type        string
-				Description string
-			}{
-				Type:        "",
-				Description: "",
-			},
-			Director: struct {
-				Type        string
-				Description string
-			}{
-				Type:        "",
-				Description: "",
-			},
-		},
-		Required: []string{
-			"ReleaseDate",
-			"Director",
-			"MovieTitle",
-		},
-	}
+	//paramsss := T{
+	//	Type: "",
+	//	Properties: struct {
+	//		MovieTitle struct {
+	//			Type        string
+	//			Description string
+	//		}
+	//		ReleaseDate struct {
+	//			Type        string
+	//			Description string
+	//		}
+	//		Director struct {
+	//			Type        string
+	//			Description string
+	//		}
+	//	}{
+	//		MovieTitle: struct {
+	//			Type        string
+	//			Description string
+	//		}{
+	//			Type:        "",
+	//			Description: "",
+	//		},
+	//		ReleaseDate: struct {
+	//			Type        string
+	//			Description string
+	//		}{
+	//			Type:        "",
+	//			Description: "",
+	//		},
+	//		Director: struct {
+	//			Type        string
+	//			Description string
+	//		}{
+	//			Type:        "",
+	//			Description: "",
+	//		},
+	//	},
+	//	Required: []string{
+	//		"ReleaseDate",
+	//		"Director",
+	//		"MovieTitle",
+	//	},
+	//}
 	request := copenai.ChatCompletionRequest{
 		Model:       c.PostModel,
 		Messages:    messages,
 		MaxTokens:   c.MaxToken,
 		Temperature: c.Temperature,
 		TopP:        1,
-		Functions: []copenai.FunctionDefinition{
-			{
-				Name:        "aaa",
-				Description: "aaa",
-				Parameters:  paramsss,
-			},
-		},
+		//Functions: []copenai.FunctionDefinition{
+		//	{
+		//		Name:        "aaa",
+		//		Description: "aaa",
+		//		Parameters:  paramsss,
+		//	},
+		//},
 	}
 	var chat copenai.ChatCompletionResponse
 	chatOrigin, err1 := c.MakeOpenAILoopRequest(&OpenAIRequest{

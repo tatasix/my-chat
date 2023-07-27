@@ -32,7 +32,7 @@ func (l *CustomerChatLogic) CustomerChat(req *types.CustomerChatRequest) (resp *
 	// todo: add your logic here and delete this line
 	open := ai.NewOpenAi(l.ctx, l.svcCtx.Config)
 	l.chatService.Set(open)
-	l.chatService.SetConfig("gpt-3.5-turbo-0613", 0.8, 5000)
+	l.chatService.SetConfig("gpt-3.5-turbo-0613", 0.8, 4000)
 	info, err := l.chatService.Chat([]structure.ChatModelMessage{
 		{
 			Role:    "user",
