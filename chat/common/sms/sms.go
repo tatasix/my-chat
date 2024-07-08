@@ -14,7 +14,7 @@ const (
 	// Url 账号 https://api.smsbao.com/sms?u=brchen&p=5e32e280ed7c4fe6b827a093dd01c7d3&m={mobile}&c={content}
 	Url = "https://api.smsbao.com/sms"
 	//ApiKey 密码
-	ApiKey = "5e32e280ed7c4fe6b827a093dd01c7d3"
+	ApiKey = ""
 	//Account 发送url，
 	Account = "brchen"
 )
