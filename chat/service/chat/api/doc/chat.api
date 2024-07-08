@@ -1,0 +1,101 @@
+syntax = "v1"
+
+info(
+    title: "user chat 相关 api"
+    desc: "语音相关"
+    author: "whyiyhw"
+    email: ""
+    version: "v1"
+)
+
+type (
+    ChatReq {
+        Channel string `json:"channel,optional" validate:"required,oneof=wecom openai" label:"渠道"`
+        MSG string `json:"msg,optional" validate:"required,max=500" label:"消息"`
+        UserID string `json:"user_id,optional" validate:"required,max=500" label:"用户标识"`
+        AgentID int64 `json:"agent_id,optional" validate:"required" label:"应用标识"`
+    }
+
+    ChatReply {
+        Message string `json:"message"`
+    }
+
+    CustomerChatReq struct {
+        MsgID      string `json:"msg_id"`
+        Msg        string `json:"msg"`
+        CustomerID string `json:"customer_id"`
+        OpenKfID   string `json:"open_kf_id"`
+    }
+
+    CustomerChatReply {
+        Message string `json:"message"`
+    }
+    ChatHistoryExportReq struct {
+        UserNickname string `json:"user_nickname"`
+        KfName   string `json:"kf_name"`
+        ChatType   int32 `json:"chat_type"`
+        StartTime   string `json:"start_time,omitempty"`
+        EndTime   string `json:"end_time,omitempty"`
+    }
+
+    ChatHistoryExportReply {
+        File string `json:"file"`
+    }
+
+    GetLastChatInfoRequest struct {
+        UserNickname string `json:"user_nickname"`
+        KfName   string `json:"kf_name"`
+        ChatType   int32 `json:"chat_type"`
+    }
+
+    GetLastChatInfoReply {
+        ReqContent string `json:"req_content"`
+        ResContent string `json:"res_content"`
+        CreatedTime string `json:"created_time"`
+    }
+
+    DoGenerateActiveChatContentRequest struct {
+        UserNickname string `json:"user_nickname"`
+        KfName   string `json:"kf_name"`
+        Prompt   string `json:"prompt"`
+        ContextMessage   string `json:"context_message"`
+        ChatType   int32 `json:"chat_type"`
+    }
+
+    DoGenerateActiveChatContentReply {
+        Message string `json:"message"`
+    }
+
+
+    GetChatListRequest struct {
+        Page     int    `json:"page"`         // 页码
+        PageSize int    `json:"page_size"` // 每页大小
+        StartCreatedAt string `json:"start_created_at,omitempty"`
+        EndCreatedAt   string `json:"end_created_at,omitempty"`
+        Agent  string `json:"agent,omitempty"`
+        User  string `json:"user,omitempty"`
+        Customer  string `json:"customer,omitempty"`
+        ChatType   int32 `json:"chat_type"`
+        ChatRecordUser           string `json:"chat_record_user,omitempty"`
+    }
+
+    GetChatListPageResult struct {
+        List     []ChatResponse `json:"list"`
+        Total    int64       `json:"total"`
+        Page     int         `json:"page"`
+        PageSize int         `json:"pageSize"`
+    }
+
+    ChatResponse struct {
+        Id         int64  `json:"id"`
+        User       string `json:"user"`        // weCom用户标识/customer用户标识
+        MessageId  string `json:"message_id"`  // message_id customer消息唯一ID
+        OpenKfId   string `json:"open_kf_id"`  // 客服标识
+        AgentId    string `json:"agent_id"`    // 应用ID
+        ReqContent string `json:"req_content"` // 用户发送内容
+        ResContent string `json:"res_content"` // openai响应内容
+        CreatedAt  string `json:"created_at"`  // 创建时间
+        UpdatedAt  string `json:"updated_at"`  // 更新时间
+        ChatRecordUser           string `json:"chat_record_user,omitempty"` //用户 id
+    }
+)

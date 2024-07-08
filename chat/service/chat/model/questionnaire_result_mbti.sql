@@ -1,0 +1,27 @@
+create table if not exists `questionnaire_result_mbti`
+(
+    `id`          bigint unsigned NOT NULL AUTO_INCREMENT,
+    `relation_id`          bigint unsigned NOT NULL  DEFAULT 0 COMMENT '关联id',
+    `user`        varchar(191)   NOT NULL DEFAULT '' COMMENT 'weCom用户标识/customer用户标识',
+    `open_kf_id`  varchar(191)  NOT NULL DEFAULT '' COMMENT '客服标识',
+    `score`  varchar(500)  NOT NULL DEFAULT '' COMMENT '分数',
+    `name`  varchar(64)  NOT NULL DEFAULT '' COMMENT '类型名称',
+    `name_type`  varchar(32)  NOT NULL DEFAULT '' COMMENT '类型',
+    `score_result`  varchar(64)  NOT NULL DEFAULT '' COMMENT '分数结果',
+    `nickname`  varchar(64)  NOT NULL DEFAULT '' COMMENT '昵称',
+    `simple_result`  varchar(1000)  NOT NULL DEFAULT '' COMMENT '一句话结果',
+    `result`    varchar(2000) DEFAULT '' NOT NULL  COMMENT '结论',
+    `label`  varchar(64)  NOT NULL DEFAULT '' COMMENT '标签',
+    `partner`  varchar(64)  NOT NULL DEFAULT '' COMMENT '伴侣',
+    `mate`  varchar(64)  NOT NULL DEFAULT '' COMMENT '拍档',
+    `content`    varchar(2000) DEFAULT '' NOT NULL  COMMENT 'ai 生成内容',
+    `pc_image` varchar(255) DEFAULT '' NOT NULL  COMMENT 'pc 图片',
+    `h5_image` varchar(255) DEFAULT '' NOT NULL  COMMENT 'h5 图片',
+    `color` tinyint DEFAULT 0 NOT NULL  COMMENT '颜色',
+    `created_at`  timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at`  timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `is_deleted` tinyint default 0 not null comment '是否删除',
+    PRIMARY KEY (`id`),
+    KEY           `user_idx` (`user`) USING BTREE,
+    KEY           `message_idx` (`relation_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci comment 'mbti结果表';

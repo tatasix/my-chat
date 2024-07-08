@@ -1,0 +1,494 @@
+syntax = "v1"
+
+import (
+	"doc/user.api"
+	"doc/chat.api"
+	"doc/frontend/chat.api"
+	"doc/uploadfile.api"
+	"doc/config.api"
+	"doc/tool.api"
+	"doc/common.api"
+	"doc/frontend/feedback.api"
+	"doc/feedback.api"
+	"doc/tool/tool.api"
+	"doc/open/open.api"
+	"doc/frontend/login.api"
+	"doc/frontend/activity.api"
+	"doc/frontend/questionnaire.api"
+	"doc/frontend/rights.api"
+
+	"doc/backend/config.api"
+	"doc/backend/activity.api"
+
+	"doc/chatroom/chat.api"
+	"doc/user_like.api"
+	"doc/chinacalendar.api"
+)
+
+info(
+	title: "chat service api"
+	desc: "chat service api desc"
+	author: "type author here"
+	email: "type email here"
+	version: "v1"
+)
+
+@server(
+	middleware: AccessLog // 路由中间件声明
+	prefix: api
+)
+
+service chat-api {
+	@handler UserRegisterHandler
+	post /user/register (UserRegisterReq) returns (UserRegisterReply)
+
+	@handler UserLoginHandler
+	post /user/login (UserLoginReq) returns (UserLoginReply)
+
+	@handler UploadArticleHandler
+	post /upload/article (UploadArticleHandlerReq) returns (UploadArticleHandlerReply)
+
+	@handler DeleteCollectionHandler
+	post /delete/collection (DeleteCollectionHandlerReq) returns (DeleteCollectionHandlerReply)
+
+	@handler SetPromptHandler
+	post /prompt/set (SetPromptReq) returns (SetPromptReply)
+
+	@handler ListPromptHandler
+	post /prompt/list (ListPromptReq) returns (ListPromptReply)
+
+	@handler DownloadChatHistoryHandler
+	get /download/chat/history (DownloadChatHistoryReq) returns (DownloadChatHistoryReply)
+
+	@handler SyncWechatUserHandler
+	get /tool/sync-wechat-user (SyncWechatUserReq) returns (SyncWechatUserReply)
+
+	@handler FindApplicationConfigHandler
+	post /config/find-get-application-config (FindApplicationConfigRequest) returns (ApplicationConfig)
+
+	@handler GetApplicationConfigHandler
+	post /config/get-application-config (GetApplicationConfigListRequest) returns (GetApplicationListPageResult)
+
+	@handler CreateApplicationConfigHandler
+	post /config/create-application-config (ApplicationConfig) returns (Response)
+
+	@handler UpdateApplicationConfigHandler
+	post /config/update-application-config (ApplicationConfig) returns (Response)
+
+	@handler DeleteApplicationConfigHandler
+	post /config/delete-application-config (FindApplicationConfigRequest) returns (Response)
+
+	@handler DeleteApplicationConfigByIdsHandler
+	post /config/delete-application-config-by-ids (IdsRequest) returns (Response)
+
+	@handler FindCustomerConfigHandler
+	post /config/find-get-customer-config (FindCustomerConfigRequest) returns (FindCustomerConfigResult)
+
+	@handler GetCustomerConfigHandler
+	post /config/get-customer-config (GetCustomerConfigListRequest) returns (GetCustomerListPageResult)
+
+	@handler CreateCustomerConfigHandler
+	post /config/create-customer-config (CustomerConfig) returns (Response)
+
+	@handler UpdateCustomerConfigHandler
+	post /config/update-customer-config (CustomerConfig) returns (Response)
+
+	@handler DeleteCustomerConfigHandler
+	post /config/delete-customer-config (FindCustomerConfigRequest) returns (Response)
+
+	@handler DeleteCustomerConfigByIdsHandler
+	post /config/delete-customer-config-by-ids (IdsRequest) returns (Response)
+
+	@handler CreateSubPromptHandler
+	post /config/create-sub-prompt (CreateSubPromptRequest) returns (Response)
+
+	@handler UpdateSubPromptHandler
+	post /config/update-sub-prompt (UpdateSubPromptRequest) returns (Response)
+
+	@handler GetChatListHandler
+	post /msg/get-chat (GetChatListRequest) returns (GetChatListPageResult)
+
+	@handler GetUserLikeListHandler
+	post /msg/get-user-like (GetUserLikeListRequest) returns (GetUserLikeListPageResult)
+
+	@handler ChatExportHandler
+	post /msg/export (GetChatListRequest) returns (ChatHistoryExportReply)
+
+	@handler GetFeedbackHandler
+	post /feedback/get (GetFeedbackRequest) returns (GetFeedbackResponse)
+
+	@handler FindFeedbackHandler
+	post /feedback/find (FindFeedbackRequest) returns (FeedbackResponse)
+
+	@handler UserLikeHandler
+	post /user/like (UserLikeReq) returns (UserLikeReply)
+
+	@handler ChinaCalendarHandler
+	get /chinaCalendar () returns (ChinaCalendarReply)
+}
+
+// 需要鉴权的服务
+@server(
+	middleware: AccessLog // 路由中间件声明
+	prefix: api
+	jwt: Auth // jwt中间件声明
+)
+service chat-api {
+	@handler ChatHandler
+	post /msg/push (ChatReq) returns (ChatReply)
+
+	@handler CustomerChatHandler
+	post /msg/customer/push (CustomerChatReq) returns (CustomerChatReply)
+
+	@handler GetLastChatRecordHandler
+	post /msg/last-chat-info (GetLastChatInfoRequest) returns (GetLastChatInfoReply)
+
+	@handler AutoChatHandler
+	post /msg/generate-chat (DoGenerateActiveChatContentRequest) returns (DoGenerateActiveChatContentReply)
+
+}
+
+@server(
+	middleware: AccessLog,Trace // 路由中间件声明
+	group: frontend
+)
+
+service chat-api {
+
+	@handler ChatIndexHandler
+	get /chat/index () returns ()
+
+	@handler CustomerFrontendChatHandler
+	get /customer/chat (CustomerChatRequest) returns (CustomerChatResponse)
+
+	@handler GetCustomerChatRecordHandler
+	post /customer/get-chat-record (GetCustomerChatRecordRequest) returns (GetCustomerChatRecordResponse)
+
+	@handler LoginHandler
+	post /login (LoginRequest) returns (LoginResponse)
+
+	@handler LoginByCodeHandler
+	post /login/login-by-code (LoginByCodeRequest) returns (LoginResponse)
+
+	@handler LogoutHandler
+	get /login/logout (LogoutRequest) returns (Response)
+
+	@handler SignoutHandler
+	get /account/cancellation (SignoutRequest) returns (Response)
+
+	@handler MobileIsExistsHandler
+	get /login/mobile-is-exists (MobileIsExistsRequest) returns (MobileIsExistsResponse)
+
+	@handler SendSmsHandler
+	post /login/send-sms (SendSmsRequest) returns (Response)
+
+	@handler SignupByMobile
+	post /login/signup-by-mobile (SignupByMobileRequest) returns (Response)
+
+	@handler GetUserHandler
+	get /login/get-user (GetUserRequest) returns (GetUserResponse)
+
+	@handler UpdateLoginHandler
+	post /login/update-login (UpdateLoginRequest) returns (LoginResponse)
+
+	@handler UpdatePasswordHandler
+	post /login/update-password (UpdatePasswordRequest) returns (Response)
+
+	@handler CheckCodePasswordHandler
+	get /login/check-code (CheckCodeRequest) returns (CheckCodeReponse)
+
+	@handler UploadHandler
+	post /upload () returns (UploadResponse)
+
+	@handler DownloadHandler
+	get /download (DownloadRequest) returns (DownloadResponse)
+
+	@handler GetConfigByTypeHandler
+	get /config/get (GetConfigRequest) returns (GetConfigResponse)
+
+	@handler GetCaptchaHandler
+	get /login/get-captcha () returns (GetCaptchaResponse)
+
+	@handler EvaluationSocketHandler
+	get /evaluation/socket (EvaluationSocketRequest) returns (EvaluationSocketResponse)
+
+	@handler GetInfoByCodeHandler
+	get /wechat/get-info-by-code (GetInfoByCodeRequest) returns (Response)
+
+	@handler GetCustomerConfigByTypeHandler
+	get /customer-config/get-by-type (GetCustomerConfigByTypeRequest) returns (GetCustomerConfigByTypeResponse)
+
+	@handler GenerateUniqueIdHandler
+	post /generate/unique-id () returns (GenerateUniqueIdResponse)
+
+	@handler GetShareConfigHandler
+	get /wechat/get-share-config (GetShareConfigRequest) returns (GetShareConfigResponse)
+
+	@handler GetCustomerConfigByTypesHandler
+	post /customer-config/get-by-types (GetCustomerConfigByTypesRequest) returns (GetCustomerConfigByTypeResponse)
+
+}
+
+@server(
+	middleware: AccessLog,Login // 路由中间件声明
+	group: chatroom
+)
+
+service chat-api {
+
+	@handler ChatRoomAddHandler
+	post /chatroom/add (ChatRoomAddRequest) returns (ChatRoomAddResponse)
+
+	@handler ChatRoomDeleteHandler
+	post /chatroom/delete (ChatRoomDeleteRequest) returns (Response)
+
+	@handler ChatRoomJoinHandler
+	post /chatroom/join (ChatRoomJoinRequest) returns (Response)
+
+	@handler GetChatRoomByIdHandler
+	get /chatroom/get-by-id (GetChatRoomByIdRequest) returns (ChatRoomAddResponse)
+
+}
+
+@server(
+	middleware: AccessLog // 路由中间件声明
+	group: chatroom
+)
+
+service chat-api {
+
+	@handler ChatRoomSocketHandler
+	get /chatroom/socket (ChatRoomSocketRequest) returns (ChatRoomSocketResponse)
+}
+
+@server(
+	middleware: AccessLog // 路由中间件声明
+	group: tool
+)
+
+service chat-api {
+
+	@handler MigrateChatLogHandler
+	get /migrate/chat-log (MigrateChatLogRequest) returns (Response)
+	//总结聊天记录
+	@handler SummarizeChatLogHandler
+	post /chat/summarize (SummarizeChatLogRequest) returns (Response)
+	//总结历史聊天记录
+	@handler SummarizeChatLogHistoryHandler
+	post /chat/summarize-history (SummarizeChatLogRequest) returns (Response)
+
+	@handler BatchUploadHandler
+	get /batch-upload () returns (Response)
+
+	@handler StatisticsHandler
+	get /activity/statistics (StatisticsRequest) returns (Response)
+
+	@handler QuestionnaireQuestionHandler
+	get /question () returns (Response)
+
+	@handler TestHandler
+	get /test () returns (Response)
+
+	@handler GetCacheHandler
+	post /cache/get (CacheRequest) returns (CacheResponse)
+
+	@handler SetCacheHandler
+	post /cache/set (CacheRequest) returns (CacheResponse)
+
+	@handler DeleteCacheHandler
+	post /cache/delete (CacheRequest) returns (CacheResponse)
+
+	@handler RightsExpireHandler
+	get /rights/expire () returns (Response)
+
+	@handler MigrateJWTHandler
+	post /migrate/jwt (MigrateJWTRequest) returns (MigrateJWTResponse)
+
+	@handler DeleteUserVipHandler
+	post /delete-user (DeleteUserVipRequest) returns (Response)
+
+	@handler EncryptMobileHandler
+	get /encrypt-mobile () returns (Response)
+
+	@handler EncryptHandler
+	post /encrypt (EncryptMobileRequest) returns (EncryptMobileResponse)
+
+	@handler DecryptHandler
+	post /decrypt (EncryptMobileRequest) returns (EncryptMobileResponse)
+
+}
+
+@server(
+	middleware: AccessLog // 路由中间件声明
+	group: open
+)
+
+service chat-api {
+
+	@handler WechatAuthorizeHandler
+	get /open/wechat-authorize (WechatRedirectRequest) returns (Response)
+
+}
+
+@server(
+	middleware: AccessLog // 路由中间件声明
+	group: backend
+	prefix: api
+)
+
+service chat-api {
+	@handler GetConfigHandler
+	get /config/get (GetConfigRequest) returns (GetConfigResponse)
+
+	@handler GetConfigByIdHandler
+	get /config/get-by-id (IdV3Request) returns (Config)
+
+	@handler AddConfigHandler
+	post /config/add (AddConfigRequest) returns (Response)
+
+	@handler UpdateConfigHandler
+	post /config/update (UpdateConfigRequest) returns (Response)
+
+	@handler DeleteConfigHandler
+	post /config/delete (IdV2Request) returns (Response)
+}
+
+@server(
+	middleware: AccessLog // 路由中间件声明
+	group: backend/activity
+)
+
+service chat-api {
+
+	@handler GetStatisticsHandler
+	get /statistics/get (GetStatisticsRequest) returns (GetStatisticsResponse)
+
+}
+
+@server(
+	middleware: AccessLog // 路由中间件声明
+	group: frontend/activity
+)
+
+service chat-api {
+
+	@handler AddActivityLogHandler
+	post /activity/add (SaveActivityLogRequest) returns (Response)
+
+	@handler ChangeUserIdHandler
+	post /activity/change-user (ChangeUserRequest) returns (Response)
+
+}
+
+// 需要鉴权的前端服务
+@server(
+	middleware: AccessLog,Login // 路由中间件声明
+	group: frontend
+	//	jwt: Auth // jwt中间件声明
+)
+service chat-api {
+
+	@handler RefreshTokenHandler
+	get /login/refresh-token (RefreshTokenRequest) returns (RefreshTokenResponse)
+
+	@handler UpdateUserHandler
+	post /user/update-user (UpdateUserRequest) returns (Response)
+
+	@handler UpdateUserPasswordHandler
+	post /user/update-user-password (UpdateUserPasswordRequest) returns (Response)
+
+	@handler GetEvaluationSocketHandler
+	get /evaluation/get-socket (GetEvaluationSocketRequest) returns (GetEvaluationSocketResponse)
+
+	@handler SaveFeedbackHandler
+	post /feedback/save (SaveFeedbackRequest) returns (Response)
+
+	@handler GetEvaluationHandler
+	get /evaluation/get (GetEvaluationRequest) returns (GetEvaluationResponse)
+
+	@handler GetRedirectUrlHandler
+	get /wechat/get-redirect-url (GetRedirectUrlRequest) returns (GetRedirectUrlResponse)
+
+}
+
+// 需要鉴权的前端服务
+@server(
+	middleware: AccessLog,Login // 路由中间件声明
+	group: frontend/rights
+	//	jwt: Auth // jwt中间件声明
+)
+service chat-api {
+
+	@handler GenerateRightsOrderHandler
+	post /rights/generate (GenerateRightsOrderRequest) returns (GenerateRightsOrderResponse)
+
+	@handler CheckRightsHandler
+	post /rights/check (CheckRightsRequest) returns (CheckRightsResponse)
+
+	@handler GetRightsHandler
+	get /rights/get (GetRightsRequest) returns (GetRightsResponse)
+
+}
+
+// 回调通知
+@server(
+	middleware: AccessLog // 路由中间件声明
+	group: frontend/rights
+)
+service chat-api {
+
+	@handler NotifyWechatHandler
+	post /notify/wechat () returns ()
+
+	@handler NotifyAlipayHandler
+	post /notify/alipay () returns ()
+
+	@handler NotifyApplePayHandler
+	post /notify/apple-pay () returns ()
+
+	@handler GetPayInfoHandler
+	get /config/get-pay (GetPayInfoRequest) returns (GetPayInfoResponse)
+
+	@handler CheckRightsTempHandler
+	post /rights/check-temp (CheckRightsTempRequest) returns (CheckRightsResponse)
+
+	@handler ApplePayConfirmHandler
+	post /rights/apple-pay-confirm (ApplePayConfirmReq) returns (Response)
+
+}
+
+// 需要鉴权的前端服务
+@server(
+	middleware: AccessLog,Login // 路由中间件声明
+	group: frontend/questionnaire
+)
+service chat-api {
+
+	@handler GetQuestionnaireHandler
+	get /questionnaire/get (GetQuestionnaireRequest) returns (GetQuestionnaireResponse)
+
+	@handler SaveQuestionnaireHandler
+	post /questionnaire/save (SaveQuestionnaireResponseRequest) returns (Response)
+
+	@handler GetQuestionnaireResultHandler
+	get /questionnaire/get-result (GetQuestionnaireRequest) returns (GetQuestionnaireResultResponse)
+
+	@handler PlayAnotherHandler
+	post /questionnaire/paly-another (PlayAnotherRequest) returns (Response)
+
+}
+
+// 不需要鉴权的前端服务
+@server(
+	middleware: AccessLog // 路由中间件声明
+	group: frontend/questionnaire
+)
+service chat-api {
+
+	@handler GenerateResultHandler
+	get /questionnaire/generate-result (GenerateResultRequest) returns (GenerateResultResponse)
+
+	@handler GetMbtiResultByRelationHandler
+	get /questionnaire/get-mbti-result-by-relation (GetMbtiResultByRelationRequest) returns (GetMbtiResultByRelationResponse)
+
+}

@@ -1,8 +1,8 @@
-# my-wechat
+# chatgpt-wechat
 
 此项目分成几个大的功能服务模块
 - **chat服务**
-使用[chatgpt](https://github.com/chy4pro/chatgpt-wechat)项目，做了很多个性化开发
+使用[chatgpt-wechat](https://github.com/chy4pro/chatgpt-wechat)项目，做了很多个性化开发
 可在微信 **安全使用（通过企业微信中转到微信，无封号风险）** 的 ChatGPT 个人助手应用,
 - **cron服务**
 定时任务服务

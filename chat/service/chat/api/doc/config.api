@@ -1,0 +1,191 @@
+syntax = "v1"
+
+info(
+    title: "user chat 相关 api"
+    desc: "配置"
+    author: "tata"
+    email: ""
+    version: "v1"
+)
+
+type (
+
+    SetPromptReq struct {
+        KfId      string `json:"kf_id"`
+        Prompt        string `json:"prompt"`
+    }
+
+    SetPromptReply {
+        Message string `json:"message"`
+    }
+
+    ListPromptReq struct {
+
+    }
+
+    ListPromptReplyData {
+        Id      int64 `json:"id"`
+        KfId      string `json:"kf_id"`
+        Prompt    string `json:"prompt"`
+    }
+    ListPromptReply {
+        List []ListPromptReplyData `json:"list"`
+    }
+
+    GetApplicationConfigListRequest struct {
+        Page     int    `json:"page"`         // 页码
+        PageSize int    `json:"page_size"` // 每页大小
+        StartCreatedAt string `json:"start_created_at,omitempty"`
+        EndCreatedAt   string `json:"end_created_at,omitempty"`
+        AgentName  string `json:"agent_name,omitempty"`
+        Model  string `json:"model,omitempty"`
+    }
+
+    FindApplicationConfigRequest struct {
+        Id  int64 `json:"id"`
+    }
+
+    IdsRequest struct {
+        Ids  []int64 `json:"id"`
+    }
+
+    // ApplicationConfig 结构体
+    ApplicationConfig struct {
+        Id  int64 `json:"id,omitempty"`
+        AgentId  int `json:"agent_id,omitempty"`
+        AgentSecret  string `json:"agent_secret,omitempty"`
+        AgentName  string `json:"agent_name,omitempty"`
+        Model  string `json:"model,omitempty"`
+        PostModel  string `json:"post_model,omitempty"`
+        BasePrompt  string `json:"base_prompt,omitempty"`
+        Welcome  string `json:"welcome,omitempty"`
+        GroupEnable  bool `json:"group_enable,omitempty"`
+        EmbeddingEnable  bool `json:"embedding_enable,omitempty"`
+        EmbeddingMode  string `json:"embedding_mode,omitempty"`
+        Score  float64 `json:"score,omitempty"`
+        TopK  int `json:"top_k,omitempty"`
+        ClearContextTime  int `json:"clear_context_time,omitempty"`
+        GroupName  string `json:"group_name,omitempty"`
+        GroupChatId  string `json:"group_chat_id,omitempty"`
+        CreatedAt        string       `json:"created_at,omitempty"`         // 创建时间
+        UpdatedAt        string       `json:"updated_at,omitempty"`         // 更新时间
+    }
+
+
+
+    GetCustomerConfigListRequest struct {
+        Page     int    `json:"page"`         // 页码
+        PageSize int    `json:"page_size"` // 每页大小
+        StartCreatedAt string `json:"start_created_at,omitempty"`
+        EndCreatedAt   string `json:"end_created_at,omitempty"`
+        CustomerName  string `json:"customer_name,omitempty"`
+        Model  string `json:"model,omitempty"`
+        IsPrompt  int `json:"is_prompt,optional"`
+    }
+
+    FindCustomerConfigRequest struct {
+        Id  int64 `json:"id"`
+    }
+
+
+    // CustomerConfig 结构体
+    CustomerConfig struct {
+        Id               int64           `json:"id,optional"`
+        KfId             string          `json:"kf_id,optional"` // 客服ID
+        KfName           string          `json:"kf_name"`
+        Prompt           string          `json:"prompt"`
+        PostModel        string          `json:"post_model"`         // 发送请求的model
+        EmbeddingEnable  bool            `json:"embedding_enable"`   // 是否启用embedding
+        EmbeddingMode    string          `json:"embedding_mode"`     // embedding的搜索模式
+        Score            float64         `json:"score"`              // 分数
+        TopK             int64           `json:"top_k"`              // topK
+        ClearContextTime int64           `json:"clear_context_time"` // 需要清理上下文的时间，按分配置，默认0不清理
+        Multiple         int64           `json:"multiple,optional"`           // 是否是多个prompt
+        PromptStates     string          `json:"prompt_states,optional"`      // prompt 配置
+        Type             int64           `json:"type,optional"`               // 类型；1 常规；2 测试
+        Config           string          `json:"config,optional"`             // 配置项
+        Summary          string          `json:"summary,optional"`            // 概要
+        Note             string          `json:"note,optional"`            // 概要
+        Description      string          `json:"description,optional"`        // 描述
+        PcImage          string          `json:"pc_image,optional"`           // pc 图片
+        H5Image          string          `json:"h5_image,optional"`           // h5 图片
+        Quote          string          `json:"quote"`           // 引用
+        Quote2          string          `json:"quote2"`           // 引用
+        Total            int64           `json:"total,optional"`
+        CreatedAt        string          `json:"created_at,optional"`         // 创建时间
+        UpdatedAt        string          `json:"updated_at,optional"`         // 更新时间
+    }
+    FindCustomerConfigResult struct{
+        CustomerConfig
+        SubPrompt        []SubPrompt         `json:"sub_prompt"`
+    }
+
+    SubPrompt struct {
+        Id        int64     `json:"id"`
+        StateId   int64     `json:"state_id"`   // 状态
+        KfId      string    `json:"kf_id"`      // 客服
+        Title     string    `json:"title"`      // 用户反馈标题
+        Prompt    string    `json:"prompt"`     // prompt
+        UpdatedBy string    `json:"updated_by"` // 更新
+        CreatedBy string    `json:"created_by"` // 创建
+        CreatedAt string `json:"created_at"` // 创建时间
+        UpdatedAt string `json:"updated_at"` // 更新时间
+        IsDeleted int64     `json:"is_deleted"` // 是否删除，0否，1是
+    }
+
+    GetCustomerListPageResult struct {
+        List     []CustomerConfig `json:"list"`
+        Total    int64       `json:"total"`
+        Page     int         `json:"page"`
+        PageSize int         `json:"pageSize"`
+    }
+
+    GetApplicationListPageResult struct {
+        List     []ApplicationConfig `json:"list"`
+        Total    int64       `json:"total"`
+        Page     int         `json:"page"`
+        PageSize int         `json:"pageSize"`
+    }
+
+    GetPayInfoRequest struct {
+        OpenKfID   string `form:"open_kf_id,optional"`
+    }
+
+    GetPayInfoData struct {
+        KfId        string  `json:"kf_id"`
+        Pay    string `json:"pay"`
+        KfName string  `json:"kf_name"`
+    }
+
+    GetPayInfoResponse struct {
+        List     []GetPayInfoData `json:"list"`
+    }
+    GetCustomerConfigByTypeRequest struct {
+        Type     int64    `form:"type"`         // 类型
+        Name     string    `form:"name,optional"`         // 名称
+    }
+
+    GetCustomerConfigByTypeResponse struct {
+        List     []CustomerConfig `json:"list"`
+    }
+
+    GetCustomerConfigByTypesRequest struct {
+        Type     []int64    `json:"type"`         // 类型
+        Name     string    `json:"name,optional"`         // 名称
+    }
+
+    CreateSubPromptRequest struct{
+        KfId  string `json:"kf_id,omitempty"`
+        Title string `json:"title,omitempty"`
+        Prompt string `json:"prompt,omitempty"`
+    }
+
+    UpdateSubPromptRequest struct{
+        Title string `json:"title,omitempty"`
+        Prompt string `json:"prompt,omitempty"`
+        SubPromptId int64 `json:"sub_prompt_id,omitempty"`
+
+    }
+
+
+)

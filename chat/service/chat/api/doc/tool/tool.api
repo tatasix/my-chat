@@ -1,0 +1,76 @@
+syntax = "v1"
+
+info(
+    title: "tool 相关 api"
+    desc: "工具"
+    author: "tata"
+    email: ""
+    version: "v1"
+)
+
+type (
+    MigrateChatLogRequest {
+        Page     int    `json:"page"`         // 页码
+        PageSize int    `json:"page_size"` // 每页大小
+    }
+
+    SummarizeChatLogRequest {
+        StartTime string    `json:"start_time,optional"` // 开始时间
+        EndTime string    `json:"end_time,optional"` // 结束时间
+        StartId int64    `json:"start_id,optional"` // 开始id
+        EndId int64    `json:"end_id,optional"` // 结束id
+    }
+
+    UploadRequest {
+        FileType uint32 `form:"file_type"`
+    }
+
+    UploadResponse {
+        File string `json:"file"`
+    }
+
+    DownloadResponse {
+    }
+
+    DownloadRequest struct {
+        File   string `form:"file"`
+        FileType   uint32 `form:"file_type"`
+    }
+
+    CacheRequest {
+        Key     string    `json:"key,optional"`
+        Value   string    `json:"value,optional"`
+        Expire   int64    `json:"expire,optional"`
+    }
+
+    CacheResponse {
+        Key     string    `json:"key"`
+        Value   string    `json:"value"`
+    }
+
+    MigrateJWTRequest {
+        User     string    `json:"user"`
+    }
+
+    MigrateJWTResponse {
+        Token string    `json:"jwt"`
+    }
+
+    DeleteUserVipRequest {
+        User     string    `json:"user"`
+    }
+
+
+    EncryptMobileRequest struct {
+        Mobile   []string `json:"mobile"`
+    }
+
+    EncryptMobileResponse struct {
+        Data   []EncryptMobileDataResponse `json:"data"`
+    }
+
+    EncryptMobileDataResponse struct {
+        Plaintext   string `json:"plaintext"`
+        Ciphertext   string `json:"ciphertext"`
+    }
+)

@@ -1,0 +1,64 @@
+syntax = "v1"
+
+info(
+    title: "rights api"
+    desc: "前端相关"
+    author: "tata"
+    email: ""
+    version: "v1"
+)
+
+type (
+    GenerateRightsOrderRequest struct {
+        Authorization string `header:"authorization" validate:"required"`
+        PayType    int64        `json:"pay_type" validate:"required"`   // 1 次卡 2 月卡 3 年卡
+        PayMethod  int64        `json:"pay_method" validate:"required"` // 1支付宝 2微信
+        Source     int64        `json:"source" validate:"required"`     // 1pc 2H5
+        User     string        `form:"user"`
+        OpenKfID   string `json:"open_kf_id"`
+        ReturnUrl   string `json:"return_url,optional"`
+        QuitUrl   string `json:"quit_url,optional"`
+        MessageID      string `json:"message_id,required"`
+
+    }
+
+    GenerateRightsOrderResponse {
+        Url string `json:"url"`
+        PayType    int64        `json:"pay_type"`   // 1 次卡 2 月卡 3 年卡
+        PayMethod  int64        `json:"pay_method"` // 1支付宝 2微信
+        Source     int64        `json:"source"`     // 1pc 2H5
+        RightsId     int64        `json:"rights_id"`
+    }
+
+    CheckRightsRequest struct {
+        Authorization string `header:"authorization" validate:"required"`
+        User     string        `form:"user"`
+        OpenKfID   string `json:"open_kf_id" validate:"required"`
+    }
+
+    CheckRightsTempRequest struct {
+        User     string   `json:"user" validate:"required"`
+        OpenKfID   string `json:"open_kf_id" validate:"required"`
+    }
+
+    CheckRightsResponse {
+        RemainTimes  int64        `json:"remain_times"`
+        Enabled     int64        `json:"enabled"`
+    }
+
+    GetRightsRequest struct {
+        Authorization string `header:"authorization" validate:"required"`
+        User     string        `form:"user"`
+        RightsId   int64 `form:"rights_id"`
+    }
+
+    GetRightsResponse struct {
+        RightsId   int64 `json:"rights_id"`
+        Status   int64 `json:"status"`
+    }
+
+    ApplePayConfirmReq struct{
+        TxnId string  `json:"txn_id,required"`
+        RightsId  int64  `json:"rights_id,required"`
+    }
+)

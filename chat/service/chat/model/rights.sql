@@ -1,0 +1,27 @@
+create table if not exists `rights`
+(
+    `id`          bigint unsigned NOT NULL AUTO_INCREMENT,
+    `message_id`  varchar(191) COLLATE utf8mb4_unicode_ci     NOT NULL DEFAULT '' COMMENT 'message_id customer消息唯一ID',
+    `user`        varchar(191) COLLATE utf8mb4_unicode_ci      NOT NULL DEFAULT '' COMMENT 'weCom用户标识/customer用户标识',
+    `open_kf_id`  varchar(191) COLLATE utf8mb4_unicode_ci       NOT NULL DEFAULT '' COMMENT '客服标识',
+    `pay_type`    tinyint unsigned  NOT NULL DEFAULT 0 COMMENT '1 次卡 2 月卡 3 年卡',
+    `out_trade_no` varchar(32) DEFAULT '' NOT NULL  COMMENT '',
+    `pay_method`    tinyint unsigned  NOT NULL DEFAULT 0 COMMENT '1支付宝 2微信',
+    `price`    smallint unsigned  NOT NULL DEFAULT 0 COMMENT '价格',
+    `period` tinyint NOT NULL DEFAULT 0 COMMENT '计算周期：1 按天算次数;2 不按时间计算次数',
+    `times`    smallint unsigned  NOT NULL DEFAULT 0 COMMENT '次数',
+    `source`    tinyint unsigned  NOT NULL DEFAULT 0 COMMENT '1pc 2H5 ',
+    `status`    tinyint unsigned  NOT NULL DEFAULT 0 COMMENT '权益状态：1未付款 2付款成功 3权益已使用 4付款失败 5过期',
+    `reason`    varchar(1000) DEFAULT '' NOT NULL  COMMENT '原因',
+    `start`  DATETIME COMMENT '开始时间',
+    `end`    DATETIME COMMENT '结束时间',
+    `snapshot`  varchar(1000) DEFAULT '' NOT NULL  COMMENT '快照',
+    `created_at`  timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updated_at`  timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `apple_txn_id` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '苹果支付TransactionId',
+    PRIMARY KEY (`id`),
+    KEY           `user_idx` (`user`) USING BTREE,
+    KEY           `message_idx` (`message_id`) USING BTREE,
+    KEY           `kf_idx` (`open_kf_id`) USING BTREE,
+    KEY           `status_idx` (`status`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

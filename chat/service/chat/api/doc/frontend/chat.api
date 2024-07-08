@@ -1,0 +1,141 @@
+syntax = "v1"
+
+
+info(
+    title: "chat 相关 api"
+    desc: "前端相关"
+    author: "tata"
+    email: ""
+    version: "v1"
+)
+
+type (
+    CustomerChatRequest struct {
+        MessageID      string `json:"message_id,optional"`
+        Message        string `json:"message,optional"`
+        User string `json:"user,optional"`
+        OpenKfID   string `json:"open_kf_id,optional"`
+        Assistant   string `json:"assistant,optional"`
+        Heartbeat   bool `json:"heartbeat,optional"`
+        Token   string `json:"token,optional"`
+    }
+
+    CustomerChatResponse {
+        Message string `json:"message"`
+        MessageID string `json:"message_id"`
+        Emoji int64 `json:"emoji"`
+        IsEnd bool `json:"is_end"`
+        ErrorMessage string `json:"error_message"`
+        Code   uint32 `json:"code"`
+        ChatRecordId string `json:"chat_record_id"`
+    }
+
+    GetCustomerChatRecordRequest struct {
+        UserId string `json:"user,optional"`
+        Page     int    `json:"page"`         // 页码
+        PageSize int    `json:"page_size"` // 每页大小
+        StartCreatedAt string `json:"start_created_at,omitempty"`
+        EndCreatedAt   string `json:"end_created_at,omitempty"`
+        OpenKfID  string `json:"open_kf_id"`
+
+    }
+
+    GetCustomerChatRecordResponse struct {
+        List     []ChatRecordResponse `json:"list"`
+        Total    int64       `json:"total"`
+        Page     int         `json:"page"`
+        PageSize int         `json:"pageSize"`
+    }
+
+    ChatRecordResponse struct {
+        ChatRecordId    string  `json:"chat_record_id"`
+        IsLike    int32  `json:"is_like"`
+        Id               int64     `json:"id"`
+        RelationId       string     `json:"relation_id"`        // 关联id
+        User             string    `json:"user"`               // weCom用户标识/customer用户标识
+        UserName             string    `json:"user_name"`               // weCom用户标识/customer用户标识
+        MessageId        string    `json:"message_id"`         // message_id customer消息唯一ID
+        OpenKfId         string    `json:"open_kf_id"`         // 客服标识
+        OpenKfName         string    `json:"open_kf_name"`         // 客服标识
+        AgentId          int64     `json:"agent_id"`           // 应用ID
+        Content          string    `json:"content"`            // 消息内容
+        Emoji            int64     `json:"emoji"`              // emoji类型
+        ChatType         int64     `json:"chat_type"`          // 聊天类型
+        AnswerOrQuestion int64     `json:"answer_or_question"` // 问题还是答案:1问题，2答案
+        State  int64 `json:"state"`
+        StateId  int64 `json:"state_id"`
+        MessageType      int64     `json:"message_type"`       // 消息类型
+        CreatedAt        string `json:"created_at"`         // 创建时间
+        UpdatedAt        string `json:"updated_at"`         // 更新时间
+    }
+
+    GetEvaluationRequest {
+        Authorization string `header:"authorization"`
+        User string `form:"user,optional"`
+        OpenKfID  string `form:"open_kf_id"`
+    }
+
+    GetEvaluationResponse {
+        RelationId string `json:"relation_id"`
+        Message    string `json:"message"`
+        Tarot      uint32 `json:"tarot"`
+        TarotImage string `json:"tarot_image"`
+        TarotName  string `json:"tarot_name"`
+        TarotInfo  string `json:"tarot_info"`
+        Status     int64  `json:"status"`
+        IsEnd      bool   `json:"is_end"`
+        Param 		string `json:"param"`
+    }
+
+    EvaluationSocketRequest {
+        MessageID     string `json:"message_id,optional"`
+        Authorization string `header:"authorization"`
+        User          string `json:"user,optional"`
+        Message       string `json:"message,optional"`
+        OpenKfID      string `json:"open_kf_id"`
+        Status        int32  `json:"status,optional"`
+        Tarot        uint32  `json:"tarot,optional"`
+        TarotName        string  `json:"tarot_name,optional"`
+        TarotImage        string  `json:"tarot_image,optional"`
+        TarotStatus        string  `json:"tarot_status,optional"`
+        LuckyNum        string  `json:"lucky_num,optional"`
+        LuckyColor        string  `json:"lucky_color,optional"`
+        LuckyFood        string  `json:"lucky_food,optional"`
+        Suitable         string  `json:"suitable,optional"`
+        Unsuitable          string  `json:"unsuitable,optional"`
+        RelationId    string `json:"relation_id,optional"`
+        Heartbeat     bool   `json:"heartbeat,optional"`
+
+    }
+
+    EvaluationSocketResponse {
+        RelationId       string `json:"relation_id"`
+        Message          string `json:"message"`
+        MessageId        string `json:"message_id"`
+        Status           int64  `json:"status"`
+        QuestionOrAnswer int32  `json:"question_or_answer"`
+        IsEnd            bool   `json:"is_end"`
+        StatusIsEnd      bool   `json:"status_is_end"`
+        ErrorMessage     string `json:"error_message"`
+        Code   uint32 `json:"code"`
+        Tarot            uint32 `json:"tarot"`
+        TarotImage       string `json:"tarot_image"`
+        TarotStatus       string `json:"tarot_status"`
+        TarotName        string `json:"tarot_name"`
+        TarotInfo        string `json:"tarot_info"`
+        Param        string `json:"param"`
+    }
+
+    GetEvaluationSocketRequest {
+        Authorization string `header:"authorization"`
+        User string `form:"user,optional"`
+        OpenKfID  string `form:"open_kf_id"`
+
+    }
+
+    GetEvaluationSocketResponse {
+        List     []ChatRecordResponse `json:"list"`
+        Status int64 `json:"status"`
+        IsEnd bool `json:"is_end"`
+    }
+)

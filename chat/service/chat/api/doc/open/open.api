@@ -1,0 +1,16 @@
+syntax = "v1"
+
+info(
+    title: "open 相关 api"
+    desc: "开放平台"
+    author: "tata"
+    email: ""
+    version: "v1"
+)
+
+type (
+    WechatRedirectRequest {
+        State     string    `form:"state,optional"`
+        Code     string    `form:"code,optional"`
+    }
+)

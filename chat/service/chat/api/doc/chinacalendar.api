@@ -1,0 +1,18 @@
+syntax = "v1"
+
+info(
+    title: " api"
+    desc: "配置"
+    author: ""
+    email: ""
+    version: "v1"
+)
+
+type (
+    ChinaCalendarReply{
+        Suitable []string `json:"suitable"`
+        Taboo []string `json:"taboo"`
+        Date string `json:"date"`
+        ChinaDate string `json:"china_date"`
+    }
+)

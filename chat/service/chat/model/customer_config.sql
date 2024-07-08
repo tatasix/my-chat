@@ -1,0 +1,31 @@
+
+create table if not exists customer_config
+(
+    id          bigint unsigned auto_increment ,
+    kf_id    varchar(128) default  ''  not null comment '客服ID',
+    kf_name varchar(50)  default '' null,
+    prompt  varchar(1000) default '' null,
+    post_model  varchar(128)   default  ''                      not null comment '发送请求的model',
+    embedding_enable BOOLEAN DEFAULT false  not null comment '是否启用embedding',
+    embedding_mode VARCHAR(64) default '' not null comment 'embedding的搜索模式',
+    score DECIMAL(3, 1) comment '分数',
+    top_k smallint DEFAULT 1  not null comment 'topK',
+    clear_context_time int DEFAULT 0  not null comment '需要清理上下文的时间，按分配置，默认0不清理',
+    multiple tinyint  not null DEFAULT 0 comment '是否是多个prompt',
+    `prompt_states` varchar(500) not null DEFAULT '' comment 'prompt 配置',
+    `pay` varchar(1000) not null DEFAULT '' comment '付款 配置',
+    `type`tinyint default 1 not null comment '类型；1 常规；2 测试',
+    `config` varchar(2000) DEFAULT '' NOT NULL  COMMENT '配置项',
+    `summary` varchar(1000) DEFAULT '' NOT NULL  COMMENT '概要',
+    `note` varchar(2000) DEFAULT '' NOT NULL  COMMENT '备注' ,
+    `quote2` varchar(1000) DEFAULT '' NOT NULL  COMMENT '引用',
+    `description` varchar(2000) DEFAULT '' NOT NULL  COMMENT '描述',
+    `pc_image` varchar(255) DEFAULT '' NOT NULL  COMMENT 'pc 图片',
+    `h5_image` varchar(255) DEFAULT '' NOT NULL  COMMENT 'h5 图片',
+    `quote` varchar(255) DEFAULT '' NOT NULL  COMMENT '引用',
+    created_at  timestamp       default CURRENT_TIMESTAMP null comment '创建时间',
+    updated_at  timestamp       default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment '更新时间',
+    is_deleted tinyint default 0 not null comment '是否删除',
+    PRIMARY KEY (`id`),
+    KEY           `idx_open_kf_id` (`kf_id`) USING BTREE
+    ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

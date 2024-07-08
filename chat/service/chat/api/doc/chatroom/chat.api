@@ -1,0 +1,71 @@
+syntax = "v1"
+
+info(
+    title: "chat 相关 api"
+    desc: "前端相关"
+    author: "tata"
+    email: ""
+    version: "v1"
+)
+
+type (
+    ChatRoomSocketRequest {
+        ChannelId string `json:"channel_id"`
+        Authorization string `header:"authorization"`
+        User string `json:"user,optional"`
+        UserName      string `json:"user_name"`
+        ToUserId     string      `json:"to_user_id"`
+        Type uint8 `json:"type,optional"`
+        Content string `json:"content,optional"`
+        OpenKfID  string `json:"open_kf_id"`
+        MessageId string `json:"message_id,optional"`
+        DialogueId string `json:"dialogue_id,optional"`
+        SendTime     string      `json:"send_time"`
+        Status     uint8      `json:"status,optional"`
+        Heartbeat   bool `json:"heartbeat,optional"`
+    }
+
+    ChatRoomSocketResponse {
+        MessageID string `json:"message_id,optional"`
+        User      string `json:"user"`
+        Message string `json:"message,optional"`
+        MessageType uint32 `json:"message_type,optional"`
+        OpenKfID  string `json:"open_kf_id"`
+        SendTime     string      `json:"send_time"`
+        ToUserId     string      `json:"to_user_id"`
+        DialogueId string `json:"dialogue_id"`
+        Other     string      `json:"other"`
+    }
+
+    ChatRoomAddRequest {
+        MessageID string `json:"message_id,optional"`
+        Authorization string `header:"authorization"`
+        User string `form:"user,optional"`
+        OpenKfID  string `json:"open_kf_id"`
+    }
+
+    ChatRoomAddResponse {
+        ChannelId string `json:"channel_id"`
+        User        string    `json:"user"`        // 用户
+        Title       string    `json:"title"`       // 名称
+        Description string    `json:"description"` // 描述
+        CreatedAt   string `json:"created_at"`
+        UpdatedAt   string `json:"updated_at"`
+        Code   uint32 `json:"code"`
+        Id   string `json:"id"`
+    }
+
+    ChatRoomDeleteRequest {
+        ChannelId string `json:"channel_id"`
+    }
+
+    ChatRoomJoinRequest {
+        ChannelId string `json:"channel_id"`
+        Authorization string `header:"authorization"`
+        User string `form:"user,optional"`
+    }
+    GetChatRoomByIdRequest {
+        Id string `form:"id"`
+    }
+
+)

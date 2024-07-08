@@ -1,0 +1,21 @@
+syntax = "v1"
+
+info(
+    title: "反馈 相关 api"
+    desc: "前端相关"
+    author: "tata"
+    email: ""
+    version: "v1"
+)
+
+type (
+    SaveFeedbackRequest struct {
+        Authorization string `header:"authorization"`
+        User string `form:"user,optional"`
+        MessageId string `json:"message_id" validate:"required"` // message_id customer消息唯一ID
+        OpenKfId  string `json:"open_kf_id" validate:"required"` // 客服标识
+        Contact     string `json:"contact,optional"`      // 用户反馈标题
+        Content   string `json:"content,optional"`    // 用户反馈内容
+        Images   string `json:"images,optional"`    // 图片
+    }
+)

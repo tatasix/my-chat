@@ -1,0 +1,40 @@
+syntax = "v1"
+
+info(
+    title: "config 相关 api"
+    desc: "后台相关"
+    author: "tata"
+    email: ""
+    version: "v1"
+)
+
+type (
+    GetStatisticsRequest struct {
+        Page     int    `form:"page"`         // 页码
+        PageSize int    `form:"page_size"` // 每页大小
+        StartCreatedAt string `form:"start_created_at,optional"`
+        EndCreatedAt   string `form:"end_created_at,optional"`
+    }
+
+    GetStatisticsResponse struct {
+        List     []Statistics `json:"list"`
+        Total    int64       `json:"total"`
+        Page     int         `json:"page"`
+        PageSize int         `json:"pageSize"`
+    }
+
+    Statistics struct {
+        Id             int64     `json:"id"`
+        Date           string `json:"date"`
+        DailyActive    int64     `json:"daily_active"`    // 日活
+        SevenActive    int64     `json:"seven_active"`    // 周活
+        FifteenActive  int64     `json:"fifteen_active"`  // 半月活
+        MonthlyActive  int64     `json:"monthly_active"`  // 月活
+        TotalVisitor   int64     `json:"total_visitor"`   // 游客
+        RegisteredUser int64     `json:"registered_user"` // 注册用户
+        AddVisitor     int64     `json:"add_visitor"`     // 新增游客
+        AddRegister    int64     `json:"add_register"`    // 新增注册用户
+        CreatedAt      string `json:"created_at"`      // 创建时间
+        UpdatedAt      string `json:"updated_at"`      // 更新时间
+    }
+)

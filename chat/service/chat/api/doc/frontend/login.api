@@ -1,0 +1,176 @@
+syntax = "v1"
+
+info(
+    title: "login api"
+    desc: "前端相关"
+    author: "tata"
+    email: ""
+    version: "v1"
+)
+
+type (
+    GetRedirectUrlRequest struct {
+        User string `form:"user"`
+        ReturnUrl string `form:"url"`
+    }
+
+    GetRedirectUrlResponse {
+        Url string `json:"url"`
+    }
+
+    LoginRequest struct {
+        Mobile string `json:"mobile" validate:"required"`
+        Password string `json:"password" validate:"required,max=20,min=6"`
+        IsLoginFree int32 `json:"is_login_free,options=0|1"`
+    }
+
+    LoginResponse {
+        Token  string `json:"token"`
+        User string `json:"user"`
+        Status int64 `json:"status"`
+    }
+
+    LoginByCodeRequest struct {
+        User string `json:"user" validate:"required"`
+        Mobile string `json:"mobile" validate:"required"`
+        Code string `json:"code" validate:"required,len=6"`
+        IsLoginFree int32 `json:"is_login_free,options=0|1"`
+    }
+
+    LogoutRequest struct {
+        Authorization string `header:"authorization"`
+    }
+
+    SignoutRequest struct {
+        Authorization string `header:"authorization"`
+    }
+
+    SendSmsRequest struct {
+        Mobile string `json:"mobile" validate:"required"`
+        CaptchaId string `json:"captcha_id,optional"`
+        Captcha string `json:"captcha,optional"`
+    }
+
+    MobileIsExistsRequest struct {
+        Mobile string `json:"mobile" validate:"required"`
+    }
+
+    MobileIsExistsResponse {
+        IsExist bool `json:"is_exist"`
+    }
+
+    SignupByMobileRequest struct {
+        User string `json:"user" validate:"required"`
+        Mobile string `json:"mobile" validate:"required"`
+        Code string `json:"code" validate:"required,len=6"`
+        Password string `json:"password" validate:"required,max=20,min=6"`
+        Name string `json:"name,optional"`
+        Sex int32 `json:"sex,optional"`
+        Birthday string `json:"birthday,optional"`
+        Constellation string `json:"constellation,optional"`
+    }
+
+    GetUserResponse {
+        Id        int64     `json:"id"`
+        User      string    `json:"user"`       // 微信客户的external_userid
+        UserType  int64     `json:"user_type"`  // 用户类型：1,微信用户；2,访客用户
+        Nickname  string    `json:"nickname"`   // 微信昵称
+        Mobile    string    `json:"mobile"`     // 手机号
+        Level         int64     `json:"level"`         // 等级
+        LevelExpire   string    `json:"level_expire"`  // 等级过期时间
+        Name      string    `json:"name"`       // 昵称
+        Status    int64     `json:"status"`     // 状态（0：未审核,1:通过 10删除）
+        Avatar    string    `json:"avatar"`     // 微信头像
+        Gender    int64     `json:"gender"`     // 性别
+        Unionid   string    `json:"unionid"`    // unionid，需要绑定微信开发者帐号才能获取到
+        Openid    string    `json:"openid"`     // openid
+        Province  string    `json:"province"`   // province
+        City      string    `json:"city"`       // city
+        Country   string    `json:"country"`    // country
+        Birthday      string    `json:"birthday"`      // 生日
+        Constellation string    `db:"constellation"` // 星座
+        CreatedAt string `json:"created_at"` // 创建时间
+        UpdatedAt string `json:"updated_at"` // 更新时间`
+        Mbti string `json:"mbti"` // mbti`
+    }
+
+    GetUserRequest struct {
+        Authorization string `header:"authorization" validate:"required"`
+    }
+
+    UpdateLoginRequest struct {
+        User string `json:"user" validate:"required"`
+        Password string `json:"password,optional"`
+        Name string `json:"name,optional"`
+        Sex int32 `json:"sex,optional"`
+        Birthday string `json:"birthday,optional"`
+        Constellation string `json:"constellation,optional"`
+        Status int64 `json:"status,options=3|1"`
+    }
+
+    UpdatePasswordRequest struct {
+        Mobile string `json:"mobile" validate:"required"`
+        Password string `json:"password,optional"`
+    }
+
+    CheckCodeRequest struct {
+        Mobile string `form:"mobile" validate:"required"`
+        Code string `form:"code" validate:"required,length=6"`
+    }
+
+    CheckCodeReponse struct {
+        Data bool `json:"data"`
+    }
+
+    UpdateUserRequest struct {
+        Authorization string `header:"authorization"`
+        User string `form:"user,optional"`
+        Name string `json:"name,optional"`
+        Sex int32 `json:"sex,optional"`
+        Birthday string `json:"birthday,optional"`
+        Constellation string `json:"constellation,optional"`
+        Mbti string `json:"mbti,optional"`
+    }
+
+    UpdateUserPasswordRequest struct {
+        Authorization string `header:"authorization"`
+        User string `form:"user,optional"`
+        Mobile string `json:"mobile" validate:"required"`
+        Code string `json:"code" validate:"required,len=6"`
+        Password string `json:"password" validate:"required,max=20,min=6"`
+    }
+
+    GetCaptchaResponse {
+        CaptchaId string `json:"captcha_id"`
+        Captcha string `json:"captcha"`
+        CaptchaLength int `json:"captcha_length"`
+    }
+
+    RefreshTokenRequest struct {
+        Authorization string `header:"authorization"`
+        User string `form:"user,optional"`
+    }
+
+    RefreshTokenResponse struct {
+        Token string `json:"token"`
+    }
+
+    GetInfoByCodeRequest struct {
+        Code string `form:"code"`
+        State string `form:"state"`
+    }
+
+    GetShareConfigRequest struct {
+        Url string `form:"url,optional"`
+        Encode bool `form:"encode,optional"`
+        Authorization string `header:"authorization,optional"`
+        User string `form:"user,optional"`
+    }
+
+    GetShareConfigResponse struct {
+        AppId string `json:"app_id"`
+        Timestamp int64 `json:"timestamp"`
+        NonceStr string `json:"nonce_str"`
+        Signature string `json:"signature"`
+    }
+)

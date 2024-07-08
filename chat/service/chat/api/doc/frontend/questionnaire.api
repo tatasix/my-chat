@@ -1,0 +1,164 @@
+syntax = "v1"
+
+
+type (
+    GetQuestionnaireRequest struct {
+        Authorization string `header:"authorization"`
+        User string `form:"user,optional"`
+        OpenKfId      string `form:"open_kf_id"`
+    }
+
+    GetQuestionnaireResponse struct {
+        Question []QuestionnaireQuestion `json:"question"`
+        Result   []QuestionnaireResult `json:"result"`
+        Response   []QuestionnaireResponse `json:"response"`
+    }
+
+    GetQuestionnaireResultResponse struct {
+        Result   []QuestionnaireResult `json:"result"`
+    }
+
+    QuestionnaireQuestion struct {
+        Id           int64     `json:"id"`
+        OpenKfId     string    `json:"open_kf_id"`    // 客服标识
+        QuestionType int64     `json:"question_type"` // 1 判断 2 选择 3 程度
+        Question     string    `json:"question"`      // 问题的内容
+        Sort         int64     `json:"sort"`          // 排序
+        Option       string    `json:"option"`        // 问题的答案
+        CreatedAt    string `json:"created_at"`    // 创建时间
+        UpdatedAt    string `json:"updated_at"`    // 更新时间
+    }
+
+    QuestionnaireResponse struct {
+        Id             int64     `json:"id"`
+        QuestionId     int64     `json:"question_id"`     // question id
+        RelationId     string     `json:"relation_id"`     // 关联id
+        MessageId      string    `json:"message_id"`      // message_id customer消息唯一ID
+        User           string    `json:"user"`            // weCom用户标识/customer用户标识
+        OpenKfId       string    `json:"open_kf_id"`      // 客服标识
+        Question       string    `json:"question"`        // 问题
+        OptionId       int64    `json:"option_id"`       // 选项id
+        Answer         string    `json:"answer"`          // 选项内容
+        Score          int64     `json:"score"`           // 分数
+        SnapshotOption string    `json:"snapshot_option"` // 快照选项
+        CreatedAt      string `json:"created_at"`      // 创建时间
+        UpdatedAt      string `json:"updated_at"`      // 更新时间
+    }
+
+    QuestionnaireResult struct {
+        Id         int64     `json:"id"`
+        RelationId string     `json:"relation_id"` // 关联id
+        User       string    `json:"user"`        // weCom用户标识/customer用户标识
+        OpenKfId   string    `json:"open_kf_id"`  // 客服标识
+        Score      float64     `json:"score"`       // 分数
+        Status     int64     `json:"status"`      // 状态，100 最终态
+        Result     string    `json:"result"`      // 结论
+
+        ScoreMbti    []QuestionnaireResultMbtiScore    `json:"score_mbti"`         // mbti分数
+        Name         string    `json:"name"`          // 类型名称
+        NameType     string    `json:"name_type"`     // 类型
+        Nickname     string    `json:"nickname"`      // 昵称
+        SimpleResult string    `json:"simple_result"` // 一句话结果
+        Label        string    `json:"label"`         // 标签
+        Partner      string    `json:"partner"`       // 拍档
+        Mate         string    `json:"mate"`          // 朋友
+        Content      string    `json:"message"`       // ai 生成内容
+        PcImage      string    `json:"pc_image"`      // pc 图片
+        H5Image      string    `json:"h5_image"`      // h5 图片
+        Color        int64     `json:"color"`
+
+        CreatedAt  string `json:"created_at"`  // 创建时间
+        UpdatedAt  string `json:"updated_at"`  // 更新时间
+    }
+
+    SaveQuestionnaireResponseRequest struct {
+        QuestionId     int64     `json:"question_id"`     // question id
+        RelationId     string    `json:"relation_id"`     // 关联id
+        MessageId      string    `json:"message_id"`      // message_id customer消息唯一ID
+        User string `form:"user,optional"`
+        OpenKfId       string    `json:"open_kf_id"`      // 客服标识
+        Question       string    `json:"question"`        // 问题
+        OptionId       int64    `json:"option_id"`       // 选项id
+        Answer         string    `json:"answer"`          // 选项内容
+        Status         int64    `json:"status"`          // 状态
+    }
+    PlayAnotherRequest struct {
+        Authorization string `header:"authorization"`
+        User string `form:"user,optional"`
+        OpenKfId      string `json:"open_kf_id"`
+    }
+
+    QuestionnaireResultMbtiScore struct {
+        Type        int64   `json:"type"`
+        Score       float64 `json:"score"`
+        Name        string  `json:"name"`
+        Description string  `json:"description"`
+    }
+
+    GenerateResultRequest struct {
+        MessageID string `json:"message_id"`
+        RelationId     string    `json:"relation_id"`     // 关联id
+        User string `json:"user"`
+        OpenKfID   string `json:"open_kf_id"`
+        Heartbeat   bool `json:"heartbeat"`
+    }
+
+    GenerateResultResponse struct {
+        Id           int64                          `json:"id"`
+        RelationId   string                         `json:"relation_id"` // 关联id
+        User         string                         `json:"user"`        // weCom用户标识/customer用户标识
+        OpenKfId     string                         `json:"open_kf_id"`  // 客服标识
+        Score        float64                        `json:"score"`       // 分数
+        Status       int64                          `json:"status"`      // 状态，100 最终态
+        Result       string                         `json:"result"`      // 结论
+        ScoreMbti    []QuestionnaireResultMbtiScore `json:"score_mbti"`  // mbti分数
+        Name         string                         `json:"name"`          // 类型名称
+        NameType     string                         `json:"name_type"`          // 类型
+        Nickname     string                         `json:"nickname"`      // 昵称
+        SimpleResult string                         `json:"simple_result"` // 一句话结果
+        Label        string                         `json:"label"`         // 标签
+        Partner      string                         `json:"partner"`       // 拍档
+        Mate         string                         `json:"mate"`          // 朋友
+        Content      string                         `json:"content"`       // ai 生成内容
+        PcImage      string                         `json:"pc_image"`      // pc 图片
+        H5Image      string                         `json:"h5_image"`      // h5 图片
+        CreatedAt    string                         `json:"created_at"`  // 创建时间
+        UpdatedAt    string                         `json:"updated_at"`  // 更新时间
+        Color        int64                          `json:"color"`
+
+        MessageID string `json:"message_id"`
+        Message string `json:"message"`
+        IsEnd bool `json:"is_end"`
+        ErrorMessage string `json:"error_message"`
+    }
+    GetMbtiResultByRelationRequest struct {
+        RelationId     string    `form:"relation_id"`     // 关联id
+    }
+
+    GetMbtiResultByRelationResponse struct {
+        Id         int64     `json:"id"`
+        RelationId string     `json:"relation_id"` // 关联id
+        User       string    `json:"user"`        // weCom用户标识/customer用户标识
+        OpenKfId   string    `json:"open_kf_id"`  // 客服标识
+        Status     int64     `json:"status"`      // 状态，100 最终态
+        Result     string    `json:"result"`      // 结论
+
+        ScoreMbti    []QuestionnaireResultMbtiScore    `json:"score_mbti"`         // mbti分数
+        Name         string    `json:"name"`          // 类型名称
+        UserName         string    `json:"user_name"`// 用户名
+        UserNickname         string    `json:"user_nickname"`          // 用户昵称
+        NameType     string    `json:"name_type"`     // 类型
+        Nickname     string    `json:"nickname"`      // 昵称
+        SimpleResult string    `json:"simple_result"` // 一句话结果
+        Label        string    `json:"label"`         // 标签
+        Partner      string    `json:"partner"`       // 拍档
+        Mate         string    `json:"mate"`          // 朋友
+        Content      string    `json:"message"`       // ai 生成内容
+        PcImage      string    `json:"pc_image"`      // pc 图片
+        H5Image      string    `json:"h5_image"`      // h5 图片
+        Color        int64     `json:"color"`
+
+        CreatedAt  string `json:"created_at"`  // 创建时间
+        UpdatedAt  string `json:"updated_at"`  // 更新时间
+    }
+)
